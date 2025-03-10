@@ -1,6 +1,4 @@
-# FastLane Frontrunner Bot PYTHON
-
-💡We also have a Golang version of the bot [Here](https://github.com/FastLane-Labs/break-monad-frontrunner-bot)
+# FastLane Frontrunner Bot PYTHON & Automated By Disala
 
 <p align="center">
   <img src="frontrunner-gif.gif" alt="Frontrunner Game Animation" width="600">
@@ -14,87 +12,39 @@ Your ranking is determined by your win/loss ratio weighted by number of attempts
 </p>
 
 
-## How to run
+# 🚀 Monad Traffic Generator  
 
-⚠️ if you don't have Python installed, jump at Prerequisites
+A simple tool to generate transaction traffic on the Monad testnet.  
 
-### Settings
-1. Add your configuration:
-Copy settings.toml.example to settings.toml and add your private key and rpc url
+## ✅ Prerequisites  
+Before running the bot, ensure you have:  
+- A **GitHub account**  
+- An **EVM wallet** with **testnet Monad (MONAD)**
+- No **testnet Monad (Mon)** Go get some [free faucet](https://testnet.monad.xyz/) for you wallet ! 
 
-settings.toml
-```toml
-[api_settings]
-rpc_url = 'your_rpc_url_here'
+## 🔧 Setup  
 
-[eoa]
-private_key = 'your_private_key_here'
-```
+### 1️⃣ Configure Your Wallet  
+Add your private key as a secret in GitHub:  
+1. Go to: **[GitHub Secrets](https://github.com/The-Disa1a/Monad_Traffic_Gen/settings/secrets/actions/new)**  
+2. Create a new secret:  
+   - **Name:** `PRIVATE_KEY`  
+   - **Secret:** *Your_Private_Key*  
+3. Click **Submit**  
 
-```
-London: https://rpc.monad-testnet-2.fastlane.xyz/b3qFoDfY9sR44yRyOeHAfyj9dpEXVoOC
-Bogota: https://rpc.monad-testnet-3.fastlane.xyz/j6EsEZHfw9Iqrp7DUX5e1aLUk85d1Yzw
-Singapore: https://rpc.monad-testnet-5.fastlane.xyz/FFHEYATiGl2Q83xOnf71ltrqZ57q9U1W
-```
+### 2️⃣ Run the Bot  
+1. Navigate to **Actions** → **RUN_FRONTRUNNER_BOT** workflow  
+2. Click **RUN_WORKFLOW** and input your settings:  
+   - **Gas Price (Gwei):** Default `50` *(no need to change)*  
+   - **Number of Attempts:** Default `10` *(1 MONAD ≈ 100 transactions)*  
+   - **Interval Between Attempts:** Default `5` *(keep unchanged for best results)*  
+3. Click **RUN_WORKFLOW**  
 
-Contract Address:
-```
-0xBce2C725304e09CEf4cD7639760B67f8A0Af5bc4
-```
+### 3️⃣ View Transactions  
+- Refresh the page if your run doesn’t appear  
+- Click on it to see transaction details  
 
-⚠️ IMPORTANT SECURITY NOTES:
-- Never share your private key or commit it to version control!
-- Store your private key securely and keep a backup
-
-### Run the bot
-
-```sh
-python play.py 
-```
-### Run the bot advanced mode
-
-```sh
-python play.py --gas_price_gwei 60 --attempts 1 --interval 5
-```
-If you do not enter any arguments, the bot will use the default values. If you do not enter `attempts` the bot will run indefinitely.
-
-## Prerequisites
-
-### 1. Install Python
-
-First, you'll need to install Python on your computer:
-
-#### Windows:
-1. Download the installer from [Python's official website](https://www.python.org/downloads/)
-2. Run the installer and follow the prompts
-3. Open Command Prompt and verify installation:
-```sh
-python --version
-```
-
-#### Mac:
-Using Homebrew:
-```sh
-brew install python
-```
-
-### 2. Install Python Dependencies
-
-```sh
-pip install -r requirements.txt
-```
-If something is missing:
-```sh
-pip install <package_name>
-```
-
-### 3. Generate a private key
-
-You can generate a private key using the following command:
-```sh
-python generate_key_pair.py
-```
-
+Now you're all set! 🚀🎯  
 
 ## Need Help?
 
