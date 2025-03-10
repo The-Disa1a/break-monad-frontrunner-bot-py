@@ -12,14 +12,12 @@ DEFAULT_ATTEMPTS: int = 10000000
 GAS_LIMIT: int = 200000
 
 def play() -> None:
-
     parser = argparse.ArgumentParser(description="Break Monad Frontrunner Bot.")
     parser.add_argument('--gas_price_gwei', type=int, default=0, help="Set the gas price in GWEI.")
     parser.add_argument('--attempts', type=int, default=False, help="Number of attempts to play.")
     parser.add_argument('--interval', type=float, default=1, help="Delay between attempts in seconds.")
     args = parser.parse_args()
 
- 
     # Initialize logger
     logging.basicConfig(level=logging.INFO)
     logger = Logs(__name__).log(level=logging.INFO)
@@ -37,7 +35,6 @@ def play() -> None:
     # 3. Initialize web3 client
     w3 = Web3(Web3.HTTPProvider(settings.api_settings.rpc_url))
 
-    # w3
     if not w3.is_connected():
         raise Exception("Failed to connect to the Ethereum network.")
     else:
@@ -49,8 +46,7 @@ def play() -> None:
         abi=settings.game_settings.abi
     )
 
-    DEFAULT_GAS_PRICE: int = int(w3.eth.gas_price*10**-9) if args.gas_price_gwei == 0 else int(args.gas_price_gwei)
-
+    DEFAULT_GAS_PRICE: int = int(w3.eth.gas_price * 10**-9) if args.gas_price_gwei == 0 else int(args.gas_price_gwei)
     logger.info(f"Using gas price: {DEFAULT_GAS_PRICE} GWEI")
 
     # 5. Get account
@@ -59,10 +55,10 @@ def play() -> None:
     except Exception as e:
         logger.error(f"Failed to get account from private key: {e}")
         raise e
-    
+
     logger.info(f"Account to be used: {account.address}")
 
-    # Balance ceck
+    # Balance check
     balance = w3.from_wei(w3.eth.get_balance(account.address), 'ether')
     logger.info(f"Account balance: {balance} Testnet Monad")
 
@@ -72,18 +68,19 @@ def play() -> None:
         time.sleep(1)
         return
 
-    # Score check
+    # Score check with win/loss ratio message
     try:
         wins, losses = contract.functions.getScore(account.address).call()
-
         if wins > 0 or losses > 0:
             logger.info(f"It looks like it's not the first time: you won {wins} times and lost {losses} times.")
+            if wins > losses:
+                logger.info("Great job! You have a favorable win ratio.")
+            else:
+                logger.info("Consider improving your strategy to reduce losses.")
         else:
             logger.info("It looks like it's the first time you play. Good luck!")
-            
     except Exception as e:
         logger.error(f"Failed to get score: {e} - Skipping...")
-
 
     nonce: int = w3.eth.get_transaction_count(account.address)
     logger.info(f"Nonce: {nonce}")
@@ -91,7 +88,7 @@ def play() -> None:
 
     gas_price_wei: int = w3.to_wei(DEFAULT_GAS_PRICE, 'gwei')
 
-    # if attempts is 0, play 
+    # Set attempts based on provided argument
     if args.attempts == False:
         attempts = DEFAULT_ATTEMPTS
     else:
@@ -99,7 +96,7 @@ def play() -> None:
 
     while True:
         try:
-            # Build the transaction with the given nonce and gas price.
+            # Build the transaction with the current nonce and gas price.
             txn = contract.functions.frontrun().build_transaction({
                 'chainId': chain_id,
                 'gas': GAS_LIMIT,
@@ -115,14 +112,14 @@ def play() -> None:
             logger.info(f"Sent transaction with nonce {nonce}. Tx hash: {tx_hash.hex()}")
         except Exception as e:
             logger.error(f"Error sending transaction with nonce {nonce}: {e}")
-    
+
         nonce += 1
         time.sleep(args.interval)
         attempts -= 1
         if attempts == 0:
             logger.info("Attempts limit reached. Exiting...")
             break
-    
+
     logger.info("All attempts have been made. Exiting...")
     return
 
