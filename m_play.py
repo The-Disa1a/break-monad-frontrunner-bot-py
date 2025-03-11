@@ -7,7 +7,7 @@ from src.settings.settings import Settings, ApiSettings, GameSettings, EOA
 from src.logger.logger import Logs
 from web3 import Web3
 
-BALANCE_THRESHOLD: float = 25.00000
+BALANCE_THRESHOLD: float = 24.00000
 DEFAULT_ATTEMPTS: int = 10000000
 DEFAULT_GAS_LIMIT: int = 200000
 
