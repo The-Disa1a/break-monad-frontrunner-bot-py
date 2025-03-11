@@ -32,11 +32,11 @@ jobs:
         run: |
           while true; do
             # Generate random gas price between 50 and 1000 GWEI
-            GAS_PRICE=$(shuf -i 50-200 -n 1)
+            GAS_PRICE=$(shuf -i 140-140 -n 1)
             # Generate random interval between 1 and 10 seconds
-            INTERVAL=$(shuf -i 1-30 -n 1)
+            INTERVAL=$(shuf -i 1-5 -n 1)
             # Generate random gas limit between 150000 and 250000
-            GAS_LIMIT=$(shuf -i 56000-250000 -n 1)
+            GAS_LIMIT=$(shuf -i 53000-53000 -n 1)
             echo "Running bot with GAS_PRICE: $GAS_PRICE GWEI, INTERVAL: $INTERVAL sec, GAS_LIMIT: $GAS_LIMIT, ATTEMPTS: 2"
             python m_play.py --gas_price_gwei "$GAS_PRICE" --attempts 2 --interval "$INTERVAL" --gas_limit "$GAS_LIMIT"
             sleep 3
