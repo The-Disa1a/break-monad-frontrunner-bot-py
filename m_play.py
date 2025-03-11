@@ -7,15 +7,16 @@ from src.settings.settings import Settings, ApiSettings, GameSettings, EOA
 from src.logger.logger import Logs
 from web3 import Web3
 
-BALANCE_THRESHOLD: float = 0.001
+BALANCE_THRESHOLD: float = 25.00000
 DEFAULT_ATTEMPTS: int = 10000000
-GAS_LIMIT: int = 200000
+DEFAULT_GAS_LIMIT: int = 200000
 
 def play() -> None:
     parser = argparse.ArgumentParser(description="Break Monad Frontrunner Bot.")
     parser.add_argument('--gas_price_gwei', type=int, default=0, help="Set the gas price in GWEI.")
     parser.add_argument('--attempts', type=int, default=False, help="Number of attempts to play.")
     parser.add_argument('--interval', type=float, default=1, help="Delay between attempts in seconds.")
+    parser.add_argument('--gas_limit', type=int, default=DEFAULT_GAS_LIMIT, help="Set the gas limit for transactions.")
     args = parser.parse_args()
 
     # Initialize logger
@@ -48,6 +49,7 @@ def play() -> None:
 
     DEFAULT_GAS_PRICE: int = int(w3.eth.gas_price * 10**-9) if args.gas_price_gwei == 0 else int(args.gas_price_gwei)
     logger.info(f"Using gas price: {DEFAULT_GAS_PRICE} GWEI")
+    logger.info(f"Using gas limit: {args.gas_limit}")
 
     # 5. Get account
     try:
@@ -96,10 +98,10 @@ def play() -> None:
 
     while True:
         try:
-            # Build the transaction with the current nonce and gas price.
+            # Build the transaction with the current nonce, gas price, and gas limit.
             txn = contract.functions.frontrun().build_transaction({
                 'chainId': chain_id,
-                'gas': GAS_LIMIT,
+                'gas': args.gas_limit,
                 'gasPrice': gas_price_wei,
                 'nonce': nonce,
             })
