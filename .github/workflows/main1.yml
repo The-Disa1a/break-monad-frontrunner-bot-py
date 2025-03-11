@@ -15,6 +15,10 @@ on:
         description: 'Interval between attempts (seconds)'
         required: false
         default: '5'
+      gas_limit:
+        description: 'Gas limit for transactions'
+        required: false
+        default: '200000'
 
 jobs:
   run-bot:
@@ -42,4 +46,4 @@ jobs:
           echo "private_key = '${{ secrets.PRIVATE_KEY }}'" >> settings.toml
 
       - name: Run bot
-        run: python m_play.py --gas_price_gwei ${{ github.event.inputs.gas_price_gwei }} --attempts ${{ github.event.inputs.attempts }} --interval ${{ github.event.inputs.interval }}
+        run: python m_play.py --gas_price_gwei ${{ github.event.inputs.gas_price_gwei }} --attempts ${{ github.event.inputs.attempts }} --interval ${{ github.event.inputs.interval }} --gas_limit ${{ github.event.inputs.gas_limit }}
