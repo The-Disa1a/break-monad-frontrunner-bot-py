@@ -32,7 +32,7 @@ jobs:
         run: |
           while true; do
             # Generate random gas price between 50 and 1000 GWEI
-            GAS_PRICE=$(shuf -i 50-1000 -n 1)
+            GAS_PRICE=$(shuf -i 50-200 -n 1)
             # Generate random interval between 1 and 10 seconds
             INTERVAL=$(shuf -i 1-30 -n 1)
             # Generate random gas limit between 150000 and 250000
