@@ -1,5 +1,5 @@
 [api_settings]
-rpc_url = 'https://rpc.monad-testnet-2.fastlane.xyz/b3qFoDfY9sR44yRyOeHAfyj9dpEXVoOC'
+rpc_url = 'https://rpc.monad-testnet-3.fastlane.xyz/j6EsEZHfw9Iqrp7DUX5e1aLUk85d1Yzw'
 
 [game_settings]
 frontrunner_contract_address = '0xBce2C725304e09CEf4cD7639760B67f8A0Af5bc4'
