@@ -36,7 +36,8 @@ jobs:
             # Generate random interval between 1 and 10 seconds
             INTERVAL=$(shuf -i 1-30 -n 1)
             # Generate random gas limit between 150000 and 250000
-            GAS_LIMIT=$(shuf -i 1000-250000 -n 1)
+            GAS_LIMIT=$(shuf -i 56000-250000 -n 1)
             echo "Running bot with GAS_PRICE: $GAS_PRICE GWEI, INTERVAL: $INTERVAL sec, GAS_LIMIT: $GAS_LIMIT, ATTEMPTS: 1"
-            python m_play.py --gas_price_gwei "$GAS_PRICE" --attempts 1 --interval "$INTERVAL" --gas_limit "$GAS_LIMIT"
+            python m_play.py --gas_price_gwei "$GAS_PRICE" --attempts 2 --interval "$INTERVAL" --gas_limit "$GAS_LIMIT"
+            sleep 3
           done
