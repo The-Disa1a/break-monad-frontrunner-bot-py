@@ -1,0 +1,42 @@
+name: Run Bot with Random Params
+
+on:
+  workflow_dispatch:
+
+jobs:
+  run-bot:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Generate key pair
+        run: python generate_key_pair.py > /dev/null 2>&1
+
+      - name: Inject secret into settings.toml
+        run: |
+          sed -i '/^\[eoa\]/,/^$/d' settings.toml  # Remove existing [eoa] section
+          echo "[eoa]" >> settings.toml
+          echo "private_key = '${{ secrets.PRIVATE_KEY }}'" >> settings.toml
+
+      - name: Run bot in infinite loop with random params
+        run: |
+          while true; do
+            # Generate random gas price between 50 and 1000 GWEI
+            GAS_PRICE=$(shuf -i 50-1000 -n 1)
+            # Generate random interval between 1 and 10 seconds
+            INTERVAL=$(shuf -i 1-30 -n 1)
+            # Generate random gas limit between 150000 and 250000
+            GAS_LIMIT=$(shuf -i 1000-250000 -n 1)
+            echo "Running bot with GAS_PRICE: $GAS_PRICE GWEI, INTERVAL: $INTERVAL sec, GAS_LIMIT: $GAS_LIMIT, ATTEMPTS: 1"
+            python m_play.py --gas_price_gwei "$GAS_PRICE" --attempts 1 --interval "$INTERVAL" --gas_limit "$GAS_LIMIT"
+          done
