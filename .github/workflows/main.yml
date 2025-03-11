@@ -6,7 +6,7 @@ on:
       gas_price_gwei:
         description: 'Gas price in Gwei'
         required: false
-        default: '50'
+        default: '140'
       attempts:
         description: 'Number of attempts'
         required: false
@@ -14,7 +14,7 @@ on:
       interval:
         description: 'Interval between attempts (seconds)'
         required: false
-        default: '5'
+        default: '30'
 
 jobs:
   run-bot:
