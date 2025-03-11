@@ -9,7 +9,7 @@ from web3 import Web3
 
 BALANCE_THRESHOLD: float = 0.001
 DEFAULT_ATTEMPTS: int = 10000000
-GAS_LIMIT: int = 200000
+GAS_LIMIT: int = 53000
 
 def play() -> None:
 
